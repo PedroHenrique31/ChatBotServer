@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
 * SOCKET
 Utiilizando o modelo cliente/servidor (Socket) criar um MVP de um chatbot.
@@ -20,8 +26,27 @@ Além disso, deverá contabilizar quantas perguntas ele conseguiu responder.
 */
 public class Servidor {
 	public static void main(String[] args) {
-		int porta=4096;
+		int porta=8080;
 		String mensagem="Não";
+		
+		ServerSocket serv_socket;
+		Socket cliente;
+		InputStreamReader inputReader;
+		BufferedReader leitor;
+		
+		
+		try {
+			serv_socket=new ServerSocket(porta);
+			System.out.println("Está esperando o cliente enviar algo");
+			cliente=serv_socket.accept();
+			inputReader=new InputStreamReader(cliente.getInputStream());
+			leitor=new BufferedReader(inputReader);
+		}catch(IOException e) {
+			System.out.println("Não foi");
+			e.printStackTrace();
+		}
+		
+		
 		System.out.println("Servidor ouvindo na porta: "+porta);
 		System.out.println("Digite qualquer palavra, quando quiser sair digite SAIR.");
 		while(!(verificaFim(mensagem))) {
