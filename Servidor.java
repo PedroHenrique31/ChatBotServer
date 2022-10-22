@@ -5,6 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+                Autores
+       Pedro Henrique Carneiro de Araújo 22108287
+*/
+
+/*
 * SOCKET
 Utiilizando o modelo cliente/servidor (Socket) criar um MVP de um chatbot.
 
