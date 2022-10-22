@@ -27,7 +27,7 @@ Além disso, deverá contabilizar quantas perguntas ele conseguiu responder.
 public class Servidor {
 	public static void main(String[] args) {
 		int porta=8080;
-		String mensagem="Não";
+		String mensagem="bnldsfkn";
 		
 		ServerSocket serv_socket;
 		Socket cliente;
