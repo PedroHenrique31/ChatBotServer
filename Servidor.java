@@ -37,7 +37,7 @@ public class Servidor {
 		ServerSocket serv_socket;
 		Socket cliente;
 		InputStreamReader inputReader;
-		BufferedReader leitor;
+		BufferedReader leitor=null;
 		
 		
 		try {
@@ -46,6 +46,7 @@ public class Servidor {
 			cliente=serv_socket.accept();
 			inputReader=new InputStreamReader(cliente.getInputStream());
 			leitor=new BufferedReader(inputReader);
+			mensagem=leitor.readLine();
 		}catch(IOException e) {
 			System.out.println("Não foi");
 			e.printStackTrace();
@@ -54,10 +55,15 @@ public class Servidor {
 		
 		System.out.println("Servidor ouvindo na porta: "+porta);
 		System.out.println("Digite qualquer palavra, quando quiser sair digite SAIR.");
-		while(!(verificaFim(mensagem))) {
-			System.out.println("Sua palavra foi: "+mensagem);
-			mensagem="SAIR";
-		}
+		
+			while(!(verificaFim(mensagem))) {
+				System.out.println("Sua palavra foi: "+mensagem);
+				try {
+					mensagem=leitor.readLine();
+				}catch(IOException e2) {
+					System.out.println("Deu ruim na leitura de mensagem.");
+					mensagem="SAIR";}
+			}
 	}
 	public static boolean verificaFim(String mensagem) {
 		boolean saida=false;
