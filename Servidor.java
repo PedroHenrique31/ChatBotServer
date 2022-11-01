@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -34,10 +35,11 @@ public class Servidor {
 		int porta=8080;
 		String mensagem="bnldsfkn";
 		
-		ServerSocket serv_socket;
+		ServerSocket serv_socket=null;
 		Socket cliente;
 		InputStreamReader inputReader;
 		BufferedReader leitor=null;
+		PrintStream saida=null;
 		
 		
 		try {
@@ -47,6 +49,7 @@ public class Servidor {
 			inputReader=new InputStreamReader(cliente.getInputStream());
 			leitor=new BufferedReader(inputReader);
 			mensagem=leitor.readLine();
+			saida=new PrintStream(cliente.getOutputStream());
 		}catch(IOException e) {
 			System.out.println("Não foi");
 			e.printStackTrace();
@@ -56,14 +59,17 @@ public class Servidor {
 		System.out.println("Servidor ouvindo na porta: "+porta);
 		System.out.println("Digite qualquer palavra, quando quiser sair digite SAIR.");
 		
-			while(!(verificaFim(mensagem))) {
-				System.out.println("Sua palavra foi: "+mensagem);
-				try {
-					mensagem=leitor.readLine();
-				}catch(IOException e2) {
-					System.out.println("Deu ruim na leitura de mensagem.");
-					mensagem="SAIR";}
+		try {
+			while(!(verificaFim(mensagem)) || (mensagem!=null)) {
+				//cliente=serv_socket.accept();
+				System.out.println("A palavra recebida foi: "+mensagem);
+				saida.println("O servidor recebeu a mensagem: \n"+mensagem);
+				mensagem=leitor.readLine();
+				
 			}
+		}catch(IOException e2) {
+			System.out.println("Deu ruim na leitura de mensagem.");
+			mensagem="SAIR";}
 	}
 	public static boolean verificaFim(String mensagem) {
 		boolean saida=false;
