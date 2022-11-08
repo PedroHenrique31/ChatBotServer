@@ -69,7 +69,8 @@ public class Respostas {
 		frases.put("companhia","Você sempre será a sua melhor companhia!");
 		frases.put("motivação","Realize o óbvio, pense no improvável e conquiste o impossível.");
 		frases.put("filósofo","Clarice Lispector");
-		frases.getOrDefault("vida", "Não entendi o que você disse.");
+		frases.put("SAIR", "Ok, estou saindo!");
+		frases.getOrDefault("qualquer", "Não entendi o que você disse.");
 		
 	}
 	public String responde(String chave) {

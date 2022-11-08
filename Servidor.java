@@ -67,10 +67,8 @@ public class Servidor {
 			while(!(verificaFim(mensagem)) || (mensagem!=null)) {
 				//cliente=serv_socket.accept();
 				System.out.println("A palavra recebida foi: "+mensagem);
-				//TODO: adicionar o respondedor aqui.
 				String algo=buscaRespostas(respondedor, mensagem);
-				System.out.println("Responderá: "+algo);
-				saida.println("O servidor recebeu a mensagem: "+mensagem);
+				saida.println("O servidor diz: "+algo);
 				mensagem=leitor.readLine();
 				
 			}
@@ -86,19 +84,21 @@ public class Servidor {
 	public static String buscaRespostas(Respostas respondedor,String questao) {
 		String resposta="nem busquei sua pergunta",
 				question=questao.toLowerCase();// converte para minusculo
-		Set<String> chaves=respondedor.chaves();System.out.println(chaves);
-		Iterator<String> iter=chaves.iterator();
+		Set<String> chaves=respondedor.chaves();
 		
+		//System.out.println(chaves);
 		
-		System.out.println("questão: "+question);
+		//System.out.println("questão: "+question);
 		for (String string : chaves) {
-			System.out.println("Chave da vez: "+string);
+			//System.out.println("Chave da vez: "+string);
 			
 			if(question.contains(string)) {
 				resposta=respondedor.responde(string);
-				//return resposta;
+				return resposta;
 			}
 		}
+		resposta="Não entendi o que você disse.";
+		//System.out.println("Resposta enviada pelo metodo buscaResposta: "+resposta);
 		return resposta;
 	}
 }
