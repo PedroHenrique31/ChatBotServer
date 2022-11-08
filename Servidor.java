@@ -63,7 +63,8 @@ public class Servidor {
 			while(!(verificaFim(mensagem)) || (mensagem!=null)) {
 				//cliente=serv_socket.accept();
 				System.out.println("A palavra recebida foi: "+mensagem);
-				saida.println("O servidor recebeu a mensagem: \n"+mensagem);
+				
+				saida.println("O servidor recebeu a mensagem: "+mensagem);
 				mensagem=leitor.readLine();
 				
 			}
@@ -75,5 +76,10 @@ public class Servidor {
 		boolean saida=false;
 		saida=mensagem.equals("SAIR");
 		return saida;
+	}
+	public static String buscaRespostas() {
+		String resposta="Não entendi";
+		
+		return resposta;
 	}
 }
