@@ -1,5 +1,7 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Respostas {
 	Map <String,String> frases;
@@ -73,6 +75,13 @@ public class Respostas {
 	public String responde(String chave) {
 		String resposta=frases.get(chave);
 		return resposta;
+	}
+	public Set<String> chaves() {
+		Set<String> lista;
+		lista=frases.keySet();
+		
+		return lista;
+		
 	}
 	
 

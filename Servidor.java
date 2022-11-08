@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
                 Autores
@@ -41,6 +43,8 @@ public class Servidor {
 		BufferedReader leitor=null;
 		PrintStream saida=null;
 		
+		Respostas respondedor=new Respostas();
+		
 		
 		try {
 			serv_socket=new ServerSocket(porta);
@@ -63,7 +67,9 @@ public class Servidor {
 			while(!(verificaFim(mensagem)) || (mensagem!=null)) {
 				//cliente=serv_socket.accept();
 				System.out.println("A palavra recebida foi: "+mensagem);
-				
+				//TODO: adicionar o respondedor aqui.
+				String algo=buscaRespostas(respondedor, mensagem);
+				System.out.println("Responderá: "+algo);
 				saida.println("O servidor recebeu a mensagem: "+mensagem);
 				mensagem=leitor.readLine();
 				
@@ -77,9 +83,22 @@ public class Servidor {
 		saida=mensagem.equals("SAIR");
 		return saida;
 	}
-	public static String buscaRespostas() {
-		String resposta="Não entendi";
+	public static String buscaRespostas(Respostas respondedor,String questao) {
+		String resposta="nem busquei sua pergunta",
+				question=questao.toLowerCase();// converte para minusculo
+		Set<String> chaves=respondedor.chaves();System.out.println(chaves);
+		Iterator<String> iter=chaves.iterator();
 		
+		
+		System.out.println("questão: "+question);
+		for (String string : chaves) {
+			System.out.println("Chave da vez: "+string);
+			
+			if(question.contains(string)) {
+				resposta=respondedor.responde(string);
+				//return resposta;
+			}
+		}
 		return resposta;
 	}
 }
