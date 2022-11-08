@@ -35,6 +35,7 @@ Além disso, deverá contabilizar quantas perguntas ele conseguiu responder.
 public class Servidor {
 	public static void main(String[] args) {
 		int porta=8080;
+		boolean finalizaServidor=true;
 		String mensagem="bnldsfkn";
 		
 		ServerSocket serv_socket=null;
@@ -44,6 +45,7 @@ public class Servidor {
 		PrintStream saida=null;
 		
 		Respostas respondedor=new Respostas();
+		ContadorErros erros=new ContadorErros();
 		
 		
 		try {
@@ -64,24 +66,31 @@ public class Servidor {
 		System.out.println("Digite qualquer palavra, quando quiser sair digite SAIR.");
 		
 		try {
-			while(!(verificaFim(mensagem)) || (mensagem!=null)) {
+			while(finalizaServidor) {
 				//cliente=serv_socket.accept();
-				System.out.println("A palavra recebida foi: "+mensagem);
-				String algo=buscaRespostas(respondedor, mensagem);
+				System.out.print("A palavra recebida foi: "+mensagem+" ");
+				String algo=buscaRespostas(respondedor, mensagem,erros);
 				saida.println("O servidor diz: "+algo);
+				finalizaServidor=(!verificaFim(mensagem) && mensagem!=null); 
+				System.out.println(finalizaServidor);
 				mensagem=leitor.readLine();
+				if(!finalizaServidor)
+					erros.geraRelatorio();
 				
 			}
 		}catch(IOException e2) {
 			System.out.println("Deu ruim na leitura de mensagem.");
-			mensagem="SAIR";}
+			mensagem="SAIR";
+			erros.geraRelatorio();
+		}
 	}
 	public static boolean verificaFim(String mensagem) {
 		boolean saida=false;
-		saida=mensagem.equals("SAIR");
+		saida="SAIR".equals(mensagem);
 		return saida;
 	}
-	public static String buscaRespostas(Respostas respondedor,String questao) {
+	public static String buscaRespostas(Respostas respondedor,String questao,
+			ContadorErros listaErros) {
 		String resposta="nem busquei sua pergunta",
 				question=questao.toLowerCase();// converte para minusculo
 		Set<String> chaves=respondedor.chaves();
@@ -98,6 +107,7 @@ public class Servidor {
 			}
 		}
 		resposta="Não entendi o que você disse.";
+		listaErros.deuErro(question);
 		//System.out.println("Resposta enviada pelo metodo buscaResposta: "+resposta);
 		return resposta;
 	}
